@@ -48,20 +48,7 @@ export default function ProductsController({ children }) {
     }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch({ type: 'list' });
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const [state, dispatch] = useReducer(handleRequest, initialState);
-
 
   return (
     <ProductsContext.Provider value={{ state, dispatch }}>

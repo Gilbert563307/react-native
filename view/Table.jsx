@@ -8,7 +8,7 @@ export default function Table({ products, styles, getDescription, viewProduct, u
             <View style={styles.tableData}>
                 <Text style={styles.cell}>{item.id}</Text>
                 <Text style={styles.cell}>{getDescription(item.name)}</Text>
-                <Text style={styles.cell}>{item.price}</Text>
+                <Text style={styles.cell}>${item.price}</Text>
                 <Button title="Read" onPress={() => viewProduct(item.id)} />
                 <Button title="Update" onPress={() => updateProduct(item)} />
             </View>

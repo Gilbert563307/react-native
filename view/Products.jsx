@@ -45,8 +45,6 @@ export default function Products() {
     }
   }
 
- 
-
   const viewProduct = (id) => {
     navigation.navigate("readProduct");
     dispatch({ type: "read", payload: { productId: id } })
@@ -57,6 +55,7 @@ export default function Products() {
   }
 
   useEffect(() => {
+    dispatch({ type: 'list' });
     // Check if the state.result is a promise and handle it
     if (state instanceof Promise) {
       state.then((resolvedResult) => {
