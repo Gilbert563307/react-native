@@ -42,7 +42,7 @@ export default function Navbar() {
         <Pressable style={styles.button}>
           <Text style={styles.text}>Home</Text>
         </Pressable>
-        <Pressable style={styles.button}onPress={goTo(routeOne.url)}>
+        <Pressable style={styles.button}onPress={goTo(routes.routeOne.url)}>
           <Text style={styles.text}>Products</Text>
         </Pressable>
       </View>

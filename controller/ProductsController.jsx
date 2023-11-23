@@ -48,12 +48,12 @@ export default function ProductsController({ children }) {
     }
   }
 
+  const [state, dispatch] = useReducer(handleRequest, initialState);
+
   useEffect(() => {
     dispatch({ type: "list" });
     console.log(state)
   }, [])
-
-  const [state, dispatch] = useReducer(handleRequest, initialState);
 
   return (
     <ProductsContext.Provider value={{ state, dispatch }}>
