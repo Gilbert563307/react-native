@@ -26,13 +26,13 @@ const initialState = {
 export const ProductsContext = createContext(initialState);
 
 export default function ProductsController({ children }) {
-  const [products, setProducts] = useState([]);
+  
 
   const handleRequest = async (state, action) => {
     switch (action.type) {
       case "read":
         const productId = action.payload.productId;
-        const read = await collectGetProduct(productId); // Use await here
+        const read = await collectGetProduct(productId);
         return { ...state, id: state.id, result: read };
 
       case "update":
@@ -48,12 +48,20 @@ export default function ProductsController({ children }) {
     }
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch({ type: 'list' });
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [state, dispatch] = useReducer(handleRequest, initialState);
 
-  useEffect(() => {
-    dispatch({ type: "list" });
-    console.log(state)
-  }, [])
 
   return (
     <ProductsContext.Provider value={{ state, dispatch }}>

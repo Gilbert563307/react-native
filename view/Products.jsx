@@ -4,10 +4,12 @@ import { View, Text, StyleSheet, Button, SafeAreaView } from "react-native"
 import { ProductsContext } from "../controller/ProductsController";
 import { useContext, useEffect, useState } from 'react';
 import Table from "./Table";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Products() {
-
   const { state, dispatch } = useContext(ProductsContext);
+  const [products, setProducts] = useState([]);
+  const navigation = useNavigation();
 
   const styles = StyleSheet.create({
     header: {
@@ -43,7 +45,10 @@ export default function Products() {
     }
   }
 
+ 
+
   const viewProduct = (id) => {
+    navigation.navigate("readProduct");
     dispatch({ type: "read", payload: { productId: id } })
   }
 
@@ -51,12 +56,18 @@ export default function Products() {
     dispatch({ type: "update", payload: { product: product } })
   }
 
-  return (<SafeAreaView>
-    {console.log(state)}
-    <Text>hello</Text>
-  </SafeAreaView>
-
-
-    //<Table products={state.result} getDescription={getDescription} viewProduct={viewProduct} updateProduct={updateProduct} styles={styles}></Table>
+  useEffect(() => {
+    // Check if the state.result is a promise and handle it
+    if (state instanceof Promise) {
+      state.then((resolvedResult) => {
+        // Perform actions with the resolved result
+        setProducts(resolvedResult.result);
+      });
+    } else {
+      setProducts(state.result);
+    }
+  }, [state.result]);
+  return (
+    <Table products={products} getDescription={getDescription} viewProduct={viewProduct} updateProduct={updateProduct} styles={styles}></Table>
   )
 }

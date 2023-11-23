@@ -8,33 +8,29 @@ const httpOptions = {
   }
 };
 const ProductsLogic = {
-
   async getProducts() {
     const url = `${API_URL}list`;
 
     try {
       const response = await fetch(url, httpOptions);
       const data = await response.json();
-      if (data) {
-        return data.data;
-      }
-      return [];
+      return data.data || [];
     } catch (error) {
       console.log("error", error);
+      return [];
     }
   },
+
   async getProduct(id) {
     const url = `${API_URL}read&id=${id}`;
     try {
       const response = await fetch(url, httpOptions);
       const data = await response.json();
-      if (data) {
-        return data.data
-      }
-      return [];
+      return data.data || [];
     } catch (error) {
       console.log("error", error);
+      return [];
     }
   },
-}
+};
 export default ProductsLogic;
