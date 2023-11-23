@@ -6,16 +6,6 @@ import { createContext } from 'react';
 
 //import { ProductsContext } from '../model/ProductsContext';
 
-const collectReadProducts = async () => {
-  const result = await ProductsLogic.getProducts();
-  return result;
-}
-
-const collectGetProduct = async (id) => {
-  const result = await ProductsLogic.getProduct(id);
-  return result[0];
-}
-
 const initialState = {
   product: [],
   id: "",
@@ -26,7 +16,18 @@ const initialState = {
 export const ProductsContext = createContext(initialState);
 
 export default function ProductsController({ children }) {
-  
+
+  const ProductsLogicInstance = ProductsLogic();
+
+  const collectReadProducts = async () => {
+    const result = await ProductsLogicInstance.getProducts();
+    return result;
+  }
+
+  const collectGetProduct = async (id) => {
+    const result = await ProductsLogicInstance.getProduct(id);
+    return result[0];
+  }
 
   const handleRequest = async (state, action) => {
     switch (action.type) {
