@@ -1,25 +1,28 @@
 
-import { NavigationContainer } from '@react-navigation/native';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import ProductsController from './ProductsController';
 import Home from "../view/Home";
-import Products from '../view/Products';
-import Product from '../view/Product';
+import LadingOverview from '../view/LadingOverview';
+import ListNounsView from '../view/ListNounsView';
+import CreateNounView from '../view/CreateNounView';
+import ReadNounView from '../view/ReadNounView';
+import UpdateNounView from '../view/UpdateNounView';
+import DeleteNounView from '../view/DeleteNounView';
 
 const Stack = createNativeStackNavigator();
 
-export default function Router({children}) {
+const Router = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Home' initialRouteName>
-            {(props) => (
-                <Home></Home>
-            )}
-        </Stack.Screen>
-        <Stack.Screen name='Products' component={Products} />
-        <Stack.Screen name="readProduct" component={Product}/>
+      <Stack.Navigator initialRouteName='Home'>
+          <Stack.Screen name='Home' component={Home}/>
+          <Stack.Screen name="LandingView" component={LadingOverview} />
+          <Stack.Screen name="CreateNounView" component={CreateNounView} />
+          <Stack.Screen name="ReadNounView" component={ReadNounView} />
+          <Stack.Screen name="UpdateNounView" component={UpdateNounView} />
+          <Stack.Screen name="DeleteNounView" component={DeleteNounView} />
+          <Stack.Screen name="ListNounsView" component={ListNounsView} />
       </Stack.Navigator>
-    </NavigationContainer>
   )
 }
+
+export default Router;

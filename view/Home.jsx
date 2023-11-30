@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, Text, Button } from 'react-native';
+import { SafeAreaView, } from 'react-native';
 import Navbar from './Navbar';
 
 export default function Home() {
