@@ -2,13 +2,16 @@ import React from 'react'
 import Router from "./Router";
 import { NounsController } from './NounsController';
 import { NavigationContainer } from '@react-navigation/native';
+import { UsersController } from './UsersController';
 
 
 export default function MainController({ children }) {
   return (
     <NavigationContainer>
       <NounsController>
-        <Router>{children}</Router>
+        <UsersController>
+          <Router>{children}</Router>
+        </UsersController>
       </NounsController>
     </NavigationContainer>
   )

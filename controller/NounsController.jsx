@@ -2,6 +2,8 @@ import { View } from 'react-native';
 import { createContext, useContext, useReducer } from 'react';
 import NounsLogic from '../model/NounsLogic';
 import { useNavigation } from '@react-navigation/native';
+import { initialNouns } from '../model/InitialNouns';
+
 
 
 export const NounsContext = createContext();
@@ -9,43 +11,35 @@ export const NounsContext = createContext();
 //... old array destructen and make a new array with the new value added in
 const NounsController = ({ children }) => {
 
-    //initialize a state
-    const initialState = {
-        noun: '',
-        id: '',
-        nouns: [],
-        result: '',
-    };
-
     const navigation = useNavigation();
-    const NounsLogicInstance = NounsLogic();
+    const { createNoun, updateNoun, deleteNoun, listNouns } = NounsLogic();
 
     const collectCreateNoun = () => {
-        const result = NounsLogicInstance.createNoun();
+        const result = createNoun();
         console.log("collectCreateNoun", result);
         return result;
     };
 
-    const collectReadNoun = (id) => {
-        const result = NounsLogicInstance.readNoun(id);
+    const collectReadNoun = (state, id) => {
+        const result = readNoun(id, state.nouns);
         console.log("collectReadNoun", result);
         return result;
     };
 
-    const collectUpdateNoun = (id) => {
-        const result = NounsLogicInstance.updateNoun(id);
+    const collectUpdateNoun = (id, noun, nouns) => {
+        const result = updateNoun(id, noun, nouns);
         console.log("collectUpdateNoun", result);
         return result;
     };
 
-    const collectDeleteNoun = (id) => {
-        const result = NounsLogicInstance.deleteNoun();
+    const collectDeleteNoun = (id, nouns) => {
+        const result = deleteNoun(id, nouns);
         console.log("collectDeleteNoun", result);
         return result;
     };
 
-    const collectListNounsView = (id) => {
-        const result = NounsLogicInstance.listNouns();
+    const collectListNounsView = (nouns) => {
+        const result = listNouns(nouns);
         console.log("getting data from the nounslogic instace", result);
         return result;
     };
@@ -61,24 +55,34 @@ const NounsController = ({ children }) => {
                 return { ...state, currentScreen: "CreateNounView", message: "Create your noun" };
             case 'READNOUN':
                 console.log("collectReadNoun triggerd", action)
-                read = collectReadNoun(action.payload.id);
+                read = collectReadNoun(state, action.payload.id);
                 navigation.navigate("ReadNounView");
                 return { ...state, currentScreen: "Read noun", noun: read };
             case 'UPDATENOUN':
-                console.log("collectUpdateNoun triggerd", action)
-                update = collectUpdateNoun(action.payload.id);
-                navigation.navigate("UpdateNounView");
-                return { ...state, currentScreen: "Read noun", noun: update };
+                if (action.sub === "updatenoun") {
+                    const updatedNouns = collectUpdateNoun(action.payload.id, action.payload, state.nouns);
+                    navigation.navigate("ListNounsView");
+                    console.log(`i am here in update noun`)
+                    return {
+                        ...state,
+                        nouns: updatedNouns,
+                        message: "Updated your noun",
+                    }
+                } else {
+                    console.log("collectUpdateNoun triggerd", action);
+                    navigation.navigate("UpdateNounView");
+                    return { ...state, currentScreen: "Read noun", noun: action.payload };
+                }
+
             case 'DELETENOUN':
-                console.log("collectDeleteNoun triggerd", action)
-                _delete = collectDeleteNoun(action.payload.id);
-                navigation.navigate("DeleteNounView");
-                return { ...state, currentScreen: "Read noun", noun: _delete };
+                console.log("collectDeleteNoun triggerd", action);
+                let updatedNouns = collectDeleteNoun(action.payload.id, state.nouns);
+                navigation.navigate("ListNounsView");
+                return { ...state, currentScreen: "List nouns", nouns: updatedNouns, message: "Deleted your noun" };
             case 'LISTNOUN':
                 navigation.navigate("ListNounsView");
-                list = collectListNounsView();
-                const dataToSet = state.nouns.length === 0 ? list : state.nouns;
-                return  { ...state, currentScreen: "ListNounsView", nouns: dataToSet }
+                const list = collectListNounsView(state.nouns);
+                return { ...state, currentScreen: "ListNounsView", nouns: list }
             default:
                 return state;
 
@@ -86,7 +90,7 @@ const NounsController = ({ children }) => {
     };
 
     //dispatches zijn de cases in de switch, met die actie verander ik de component.
-    const [state, dispatch] = useReducer(handleRequest, initialState);
+    const [state, dispatch] = useReducer(handleRequest, initialNouns);
 
     return (
         <NounsContext.Provider value={{ state, dispatch }}>

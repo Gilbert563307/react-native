@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, SafeAreaView, Text } from 'react-native'
-import { useNounsContext } from "../controller/NounsController";
+import { useUsersContext } from '../../controller/UsersController';
 
-export default function LadingOverview() {
+export default function LandingUsersView() {
 
-    const { dispatch } = useNounsContext();
+    const { state, dispatch } = useUsersContext();
 
     const styles = StyleSheet.create({
         container: {
@@ -20,10 +20,10 @@ export default function LadingOverview() {
 
     const buttons = [
         { name: "create", action: "CREATENOUN", payload: null },
-        // { name: "read", action: "READNOUN", payload: 1 },
-        // { name: "update", action: "UPDATENOUN", payload: { id: 1 } },
-        // { name: "delete", action: "DELETENOUN", payload: 1 },
-        { name: "list", action: "LISTNOUN", payload: null },
+        { name: "read", action: "READNOUN", payload: 1 },
+        { name: "update", action: "UPDATENOUN", payload: { id: 1 } },
+        { name: "delete", action: "DELETENOUN", payload: 1 },
+        { name: "list", action: "LISTUSERS", payload: null },
     ];
 
     const handleNavigate = (action, payload) => {
@@ -32,7 +32,7 @@ export default function LadingOverview() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Nouns overview </Text>
+            <Text>Users overview </Text>
             {buttons.map((obj, key) => {
                 return <TouchableOpacity style={styles.button} key={key} onPress={() => handleNavigate(obj.action, obj.payload)} >
                     <Text>{obj.name}</Text>

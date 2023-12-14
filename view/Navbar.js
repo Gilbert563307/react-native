@@ -27,11 +27,11 @@ export default function Navbar() {
         }
       });
     
-  
-  const routes = {
-    routeOne: {name: "Products", url: "Products"},
-    routeTwo: {name: "Nouns", url: "LandingView"},
-  }
+
+  const routes = [
+    {name: "Nouns", url: "LandingView"},
+    {name: "Users", url: "LandingUsersView"},
+  ]
 
   const navigation = useNavigation();
   function goTo(url) {
@@ -40,12 +40,13 @@ export default function Navbar() {
 
   return (
     <View style={styles.navbar}>
-        <Pressable style={styles.button}onPress={goTo(routes.routeOne.url)}>
-          <Text style={styles.text}>Products</Text>
-        </Pressable>
-        <Pressable style={styles.button}onPress={goTo(routes.routeTwo.url)}>
-          <Text style={styles.text}>Nouns</Text>
-        </Pressable>
+        {
+          routes.map((obj, key) => {
+            return <Pressable key={key} style={styles.button}onPress={goTo(obj.url)}>
+            <Text style={styles.text}>{obj.name}</Text>
+          </Pressable>
+          })
+        }
       </View>
   )
 }

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const ListsStyle = StyleSheet.create({
   listcontainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
     shadowColor: 'rgb(0,0,0)',
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 4,
@@ -21,7 +22,10 @@ const ListsStyle = StyleSheet.create({
     borderColor: 'red',
   },
   listtextcontainer: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "2em",
     marginLeft: 16,
   },
   listhead: {
@@ -35,6 +39,13 @@ const ListsStyle = StyleSheet.create({
     width: 20,
     height: 20,
     overflow: 'hidden',
+  },
+
+  button: {
+    borderRadius: "3px",
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
   },
 });
 

@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { SafeAreaView, Text, TextInput, View, StyleSheet, Button, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import { useNounsContext } from '../controller/NounsController';
+import { useNounsContext } from '../../controller/NounsController';
+
 
 export default function CreateNounView() {
   const [image, setImage] = useState(null);
@@ -18,8 +19,6 @@ export default function CreateNounView() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       const imageUrl = result.assets[0].uri;
       setImage(imageUrl);
@@ -28,7 +27,7 @@ export default function CreateNounView() {
 
   const createNoun = async () => {
     if (image && name && lastName) {
-      const payload = { id: null, firstname: name, lastname: lastName, photo: image }
+      const payload = { id: state.nouns.length + 1, name: name, bornAt: bornAt, photo: image }
       dispatch({ type: "CREATENOUN", payload: payload })
     }
   }
@@ -46,7 +45,7 @@ export default function CreateNounView() {
   return (
     <SafeAreaView>
       <View>
-        <Text>{image && name && lastName ? "New data created " : ""}</Text>
+        <Text>{image && name && lastName ? "Image name and lastname are filled in " : ""}</Text>
 
       </View>
       <View>
